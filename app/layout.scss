@@ -1,3 +1,5 @@
+@use 'theme';
+
 *,
 ::before,
 ::after {
@@ -12,6 +14,11 @@
 html,
 body {
 	height: 100%;
+}
+
+body {
+	color: theme.$white;
+	background: theme.$dark;
 }
 
 a {
