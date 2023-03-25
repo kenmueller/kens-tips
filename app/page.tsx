@@ -1,3 +1,5 @@
+import Search from '@/components/Search'
+
 import styles from './page.module.scss'
 
 export const metadata = {
@@ -5,10 +7,11 @@ export const metadata = {
 	description: "Ken's Tips"
 }
 
-const Home = () => (
+const HomePage = () => (
 	<main className={styles.root}>
 		<h1 className={styles.title}>Ken's Tips</h1>
+		<Search />
 	</main>
 )
 
-export default Home
+export default HomePage
