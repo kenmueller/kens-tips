@@ -1,7 +1,6 @@
 import Link from 'next/link'
 
 import styles from './page.module.scss'
-import { DiscussionEmbed } from 'disqus-react'
 import CommentCount from '@/components/Disqus/CommentCount'
 import Comments from '@/components/Disqus/Comments'
 
