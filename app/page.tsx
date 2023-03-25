@@ -1,8 +1,8 @@
 import styles from './page.module.scss'
 
 export const metadata = {
-	title: 'Ken's Tips',
-	description: 'Ken's Tips'
+	title: "Ken's Tips",
+	description: "Ken's Tips"
 }
 
 const Home = () => (
