@@ -38,12 +38,7 @@ const saveLoadedQuestions = async (questions: string[]) => {
 							results.map(
 								({ id, question, answer, related }) =>
 									sql.unsafe`(${sql.join(
-										[
-											id,
-											question,
-											answer,
-											`ARRAY [${sql.join(related, sql.fragment`, `)}]`
-										],
+										[id, question, answer, sql.array(related, 'text')],
 										sql.fragment`, `
 									)})`
 							),
