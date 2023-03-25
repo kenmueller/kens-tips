@@ -16,3 +16,4 @@ yarn-error.log*
 .vscode
 *.tsbuildinfo
 next-env.d.ts
+.env

@@ -7,7 +7,9 @@ import styles from './Search.module.scss'
 
 const Search = () => {
 	const router = useRouter()
+
 	const [question, setQuestion] = useState('')
+	const normalizedQuestion = question.trim()
 
 	const onChange = useCallback(
 		(event: ChangeEvent<HTMLInputElement>) => {
@@ -19,15 +21,17 @@ const Search = () => {
 	const onSubmit = useCallback(
 		(event: FormEvent<HTMLFormElement>) => {
 			event.preventDefault()
-			router.push(`/q/${encodeURIComponent(question)}`)
+
+			if (normalizedQuestion)
+				router.push(`/q/${encodeURIComponent(normalizedQuestion)}`)
 		},
-		[router, question]
+		[router, normalizedQuestion]
 	)
 
 	return (
 		<form className={styles.root} onSubmit={onSubmit}>
 			<input value={question} placeholder="Question" onChange={onChange} />
-			<button>Search</button>
+			<button disabled={!normalizedQuestion}>Search</button>
 		</form>
 	)
 }
