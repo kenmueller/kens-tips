@@ -13,7 +13,7 @@ const getRelatedQuestions = async (question: string) => {
 		const response = await createCompletion([
 			{
 				role: 'system',
-				content: `Find ${RELATED_QUESTIONS_COUNT} related queries. Answer as a numbered list. Do not mention that you are an AI.`
+				content: `Find ${RELATED_QUESTIONS_COUNT} follow up questions. Answer as a numbered list. Do not mention that you are an AI.`
 			},
 			{
 				role: 'user',
