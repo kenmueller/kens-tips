@@ -1,4 +1,28 @@
+@use 'theme';
+
 .root {
 	display: flex;
 	align-items: center;
+}
+
+.input {
+	color: theme.$white;
+	background: rgba(theme.$white, 0.1);
+
+	&::placeholder {
+		color: rgba(theme.$white, 0.5);
+	}
+}
+
+.submit {
+	color: theme.$white;
+	transition: opacity 0.3s;
+
+	&:disabled {
+		opacity: 0.5;
+	}
+
+	&:hover {
+		opacity: 0.7;
+	}
 }

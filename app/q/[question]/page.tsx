@@ -3,7 +3,6 @@ import { Suspense } from 'react'
 import CommentCount from '@/components/Disqus/CommentCount'
 import Comments from '@/components/Disqus/Comments'
 import getQuestionByName from '@/lib/question/getByName'
-import Question from '@/lib/question'
 import getDefaultQuestion from '@/lib/question/default'
 import getAnswer from '@/lib/question/getAnswer'
 import getRelatedQuestions from '@/lib/question/getRelated'
@@ -14,9 +13,10 @@ import CommentConfig from '@/lib/comment/config'
 import Resolve from '@/components/Resolve'
 import updateQuestion from '@/lib/question/update'
 import createQuestion from '@/lib/question/create'
+import QuestionStore from '@/lib/question/store'
+import Search from '@/components/Search'
 
 import styles from './page.module.scss'
-import QuestionStore from '@/lib/question/store'
 
 export const metadata = {
 	title: "Ken's Tips",
@@ -88,6 +88,9 @@ const QuestionPage = async ({
 
 	return (
 		<main className={styles.root}>
+			<nav>
+				<Search />
+			</nav>
 			<h1>{question.question}</h1>
 			<p>Views: {question.views}</p>
 			<p>Written on {formatDate(new Date(question.created))}</p>

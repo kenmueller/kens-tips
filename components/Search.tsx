@@ -30,8 +30,15 @@ const Search = () => {
 
 	return (
 		<form className={styles.root} onSubmit={onSubmit}>
-			<input value={question} placeholder="Question" onChange={onChange} />
-			<button disabled={!normalizedQuestion}>Search</button>
+			<input
+				className={styles.input}
+				value={question}
+				placeholder="Question"
+				onChange={onChange}
+			/>
+			<button className={styles.submit} disabled={!normalizedQuestion}>
+				Search
+			</button>
 		</form>
 	)
 }
