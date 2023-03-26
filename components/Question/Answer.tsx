@@ -3,6 +3,7 @@ import { Suspense } from 'react'
 const Answer = ({ answer }: { answer: Promise<string> }) => (
 	<section>
 		<Suspense fallback={<p>Loading...</p>}>
+			{/* @ts-ignore */}
 			<AnswerResolved answer={answer} />
 		</Suspense>
 	</section>

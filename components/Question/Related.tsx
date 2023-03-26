@@ -5,6 +5,7 @@ const RelatedQuestions = ({ related }: { related: Promise<string[]> }) => (
 	<section>
 		<h3>Related Questions</h3>
 		<Suspense fallback={<p>Loading...</p>}>
+			{/* @ts-ignore */}
 			<RelatedQuestionsResolved related={related} />
 		</Suspense>
 	</section>
