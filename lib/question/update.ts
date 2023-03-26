@@ -7,12 +7,15 @@ const updateQuestion = async (
 	id: string,
 	{ answer, related }: { answer: string | null; related: string[] | null },
 	connection?: DatabasePoolConnection
-) =>
-	connection
+) => {
+	if (!(answer || related)) return
+
+	await (connection
 		? updateQuestionWithConnection(id, { answer, related }, connection)
 		: connect(connection =>
 				updateQuestionWithConnection(id, { answer, related }, connection)
-		  )
+		  ))
+}
 
 const updateQuestionWithConnection = async (
 	id: string,
@@ -26,7 +29,7 @@ const updateQuestionWithConnection = async (
 								answer && sql.unsafe`answer = ${answer}`,
 								related && sql.unsafe`related = ${sql.array(related, 'text')}`
 							].filter(Boolean) as string[],
-							sql.fragment` `
+							sql.fragment`, `
 						)}
 				   WHERE id = ${id}`
 	)

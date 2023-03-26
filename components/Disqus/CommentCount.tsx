@@ -5,24 +5,24 @@ if (!process.env.NEXT_PUBLIC_ORIGIN)
 if (!process.env.NEXT_PUBLIC_DISQUS_SHORTNAME)
 	throw new Error('Missing NEXT_PUBLIC_DISQUS_SHORTNAME')
 
-import { CommentCount as _CommentCount } from 'disqus-react'
+import dynamic from 'next/dynamic'
 
-import useIsClient from '@/lib/useIsClient'
 import CommentConfig from '@/lib/comment/config'
 
-const CommentCount = ({ config }: { config: CommentConfig }) => {
-	const isClient = useIsClient()
+const _CommentCount = dynamic(
+	() => import('disqus-react').then(module => module.CommentCount),
+	{ ssr: false }
+)
 
-	return isClient ? (
-		<_CommentCount
-			shortname={process.env.NEXT_PUBLIC_DISQUS_SHORTNAME!}
-			config={{
-				url: `${process.env.NEXT_PUBLIC_ORIGIN!}${config.path}`,
-				identifier: config.id,
-				title: config.title
-			}}
-		/>
-	) : null
-}
+const CommentCount = ({ config }: { config: CommentConfig }) => (
+	<_CommentCount
+		shortname={process.env.NEXT_PUBLIC_DISQUS_SHORTNAME!}
+		config={{
+			url: `${process.env.NEXT_PUBLIC_ORIGIN!}${config.path}`,
+			identifier: config.id,
+			title: config.title
+		}}
+	/>
+)
 
 export default CommentCount
