@@ -4,7 +4,7 @@ import { nanoid } from 'nanoid'
 
 import Question from '.'
 
-const createDefaultQuestion = (question: string): Question => ({
+const getDefaultQuestion = (question: string): Question => ({
 	id: nanoid(),
 	question,
 	answer: null,
@@ -13,4 +13,4 @@ const createDefaultQuestion = (question: string): Question => ({
 	created: Date.now()
 })
 
-export default createDefaultQuestion
+export default getDefaultQuestion

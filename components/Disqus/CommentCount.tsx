@@ -7,23 +7,22 @@ if (!process.env.NEXT_PUBLIC_DISQUS_SHORTNAME)
 
 import { CommentCount as _CommentCount } from 'disqus-react'
 
-const CommentCount = ({
-	path,
-	id,
-	title
-}: {
-	path: string
-	id: string
-	title: string
-}) => (
-	<_CommentCount
-		shortname={process.env.NEXT_PUBLIC_DISQUS_SHORTNAME!}
-		config={{
-			url: `${process.env.NEXT_PUBLIC_ORIGIN!}${path}`,
-			identifier: id,
-			title
-		}}
-	/>
-)
+import useIsClient from '@/lib/useIsClient'
+import CommentConfig from '@/lib/comment/config'
+
+const CommentCount = ({ config }: { config: CommentConfig }) => {
+	const isClient = useIsClient()
+
+	return isClient ? (
+		<_CommentCount
+			shortname={process.env.NEXT_PUBLIC_DISQUS_SHORTNAME!}
+			config={{
+				url: `${process.env.NEXT_PUBLIC_ORIGIN!}${config.path}`,
+				identifier: config.id,
+				title: config.title
+			}}
+		/>
+	) : null
+}
 
 export default CommentCount

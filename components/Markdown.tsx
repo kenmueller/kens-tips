@@ -1,10 +1,18 @@
+import cx from 'classnames'
+
 import mdToHtml from '@/lib/mdToHtml'
 
 import styles from './Markdown.module.scss'
 
-const Markdown = ({ text }: { text: string }) => (
+const Markdown = ({
+	className,
+	text
+}: {
+	className?: string
+	text: string
+}) => (
 	<div
-		className={styles.root}
+		className={cx(styles.root, className)}
 		dangerouslySetInnerHTML={{ __html: mdToHtml(text) }}
 	/>
 )

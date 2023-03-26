@@ -2,12 +2,13 @@ import CommentCount from '@/components/Disqus/CommentCount'
 import Comments from '@/components/Disqus/Comments'
 import getQuestionByName from '@/lib/question/getByName'
 import Question from '@/lib/question'
-import createDefaultQuestion from '@/lib/question/default'
+import getDefaultQuestion from '@/lib/question/default'
 import getAnswer from '@/lib/question/getAnswer'
 import getRelatedQuestions from '@/lib/question/getRelated'
 import RelatedQuestions from '@/components/Question/Related'
 import Answer from '@/components/Question/Answer'
 import formatDate from '@/lib/format/date'
+import CommentConfig from '@/lib/comment/config'
 
 import styles from './page.module.scss'
 
@@ -26,7 +27,7 @@ const QuestionPage = async ({
 	const _question = await getQuestionByName(normalizedName)
 
 	const hasQuestion = Boolean(_question)
-	const question: Question = _question ?? createDefaultQuestion(normalizedName)
+	const question: Question = _question ?? getDefaultQuestion(normalizedName)
 
 	const hasAnswer = Boolean(question.answer)
 	const answer = question.answer
@@ -38,7 +39,7 @@ const QuestionPage = async ({
 		? Promise.resolve(question.related)
 		: getRelatedQuestions(question.question)
 
-	const commentConfig = {
+	const commentConfig: CommentConfig = {
 		path: `/q/${encodeURIComponent(question.question)}`,
 		id: question.id,
 		title: question.question
@@ -49,10 +50,10 @@ const QuestionPage = async ({
 			<h1>{question.question}</h1>
 			<p>Views: {question.views}</p>
 			<p>Written on {formatDate(new Date(question.created))}</p>
-			{/* <CommentCount {...commentConfig} /> */}
+			<CommentCount config={commentConfig} />
 			<Answer answer={answer} />
 			<RelatedQuestions related={relatedQuestions} />
-			{/* <Comments {...commentConfig} /> */}
+			<Comments config={commentConfig} />
 		</main>
 	)
 }
