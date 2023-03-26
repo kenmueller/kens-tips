@@ -1,3 +1,5 @@
+import { Suspense } from 'react'
+
 import CommentCount from '@/components/Disqus/CommentCount'
 import Comments from '@/components/Disqus/Comments'
 import getQuestionByName from '@/lib/question/getByName'
@@ -9,6 +11,9 @@ import RelatedQuestions from '@/components/Question/Related'
 import Answer from '@/components/Question/Answer'
 import formatDate from '@/lib/format/date'
 import CommentConfig from '@/lib/comment/config'
+import Resolve from '@/components/Resolve'
+import updateQuestion from '@/lib/question/update'
+import createQuestion from '@/lib/question/create'
 
 import styles from './page.module.scss'
 
@@ -39,6 +44,16 @@ const QuestionPage = async ({
 		? Promise.resolve(question.related)
 		: getRelatedQuestions(question.question)
 
+	const saveResult = Promise.all([answer, relatedQuestions]).then(
+		([answer, relatedQuestions]) =>
+			hasQuestion
+				? updateQuestion(question.id, {
+						answer: hasAnswer ? null : answer,
+						related: hasRelatedQuestions ? null : relatedQuestions
+				  })
+				: createQuestion(question, { answer, related: relatedQuestions })
+	)
+
 	const commentConfig: CommentConfig = {
 		path: `/q/${encodeURIComponent(question.question)}`,
 		id: question.id,
@@ -54,6 +69,10 @@ const QuestionPage = async ({
 			<Answer answer={answer} />
 			<RelatedQuestions related={relatedQuestions} />
 			<Comments config={commentConfig} />
+			<Suspense>
+				{/* @ts-ignore */}
+				<Resolve promise={saveResult} />
+			</Suspense>
 		</main>
 	)
 }

@@ -1,3 +1,5 @@
+import 'server-only'
+
 import { Converter } from 'showdown'
 
 const converter = new Converter()
