@@ -5,7 +5,7 @@ import HttpError from '../error/http'
 import ErrorCode from '../error/code'
 import OpenAIError from '../openai/error'
 
-const RELATED_QUESTIONS_COUNT = 3
+const RELATED_QUESTIONS_COUNT = 6
 const LINE_MATCH = /^\d+\.\s*(.+)$/
 
 const getRelatedQuestions = async (question: string) => {

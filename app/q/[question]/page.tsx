@@ -16,6 +16,7 @@ import updateQuestion from '@/lib/question/update'
 import createQuestion from '@/lib/question/create'
 
 import styles from './page.module.scss'
+import QuestionStore from '@/lib/question/store'
 
 export const metadata = {
 	title: "Ken's Tips",
@@ -29,30 +30,55 @@ const QuestionPage = async ({
 }) => {
 	const normalizedName = decodeURIComponent(name).trim()
 
-	const _question = await getQuestionByName(normalizedName)
+	const questionInStore = QuestionStore.shared.getQuestionByName(normalizedName)
 
-	const hasQuestion = Boolean(_question)
-	const question: Question = _question ?? getDefaultQuestion(normalizedName)
+	const questionInDatabase = questionInStore
+		? null
+		: await getQuestionByName(normalizedName)
 
-	const hasAnswer = Boolean(question.answer)
+	const question =
+		questionInStore ?? questionInDatabase ?? getDefaultQuestion(normalizedName)
+
+	const loading = !(question.answer && question.related)
+	const addToStore = loading && !questionInStore
+
+	// Has missing fields and is the first client to load this question.
+	if (addToStore) QuestionStore.shared.addQuestion(question)
+
 	const answer = question.answer
-		? Promise.resolve(question.answer)
-		: getAnswer(question.question)
+		? Promise.resolve(question.answer) // Has answer already loaded
+		: questionInStore // If another client is already loading the answer
+		? QuestionStore.shared.getAnswer(question.id) // Subscribe to the other client loading the answer
+		: // First client to load the answer
+		  getAnswer(question.question).then(answer => {
+				QuestionStore.shared.addAnswer(question.id, answer)
+				return answer
+		  })
 
-	const hasRelatedQuestions = Boolean(question.related)
 	const relatedQuestions = question.related
-		? Promise.resolve(question.related)
-		: getRelatedQuestions(question.question)
+		? Promise.resolve(question.related) // Has related questions already loaded
+		: questionInStore // If another client is already loading the related questions
+		? QuestionStore.shared.getRelatedQuestions(question.id) // Subscribe to the other client loading the related questions
+		: // First client to load the related questions
+		  getRelatedQuestions(question.question).then(related => {
+				QuestionStore.shared.addRelatedQuestions(question.id, related)
+				return related
+		  })
 
-	const saveResult = Promise.all([answer, relatedQuestions]).then(
-		([answer, relatedQuestions]) =>
-			hasQuestion
-				? updateQuestion(question.id, {
-						answer: hasAnswer ? null : answer,
-						related: hasRelatedQuestions ? null : relatedQuestions
-				  })
-				: createQuestion(question, { answer, related: relatedQuestions })
-	)
+	const saveResult = addToStore // Has missing fields and is the first client to load this question.
+		? Promise.all([answer, relatedQuestions])
+				.then(([answer, relatedQuestions]) =>
+					questionInDatabase
+						? updateQuestion(question.id, {
+								answer: question.answer ? null : answer,
+								related: question.related ? null : relatedQuestions
+						  })
+						: createQuestion(question, { answer, related: relatedQuestions })
+				)
+				.then(() => {
+					QuestionStore.shared.removeQuestion(question.id)
+				})
+		: Promise.resolve()
 
 	const commentConfig: CommentConfig = {
 		path: `/q/${encodeURIComponent(question.question)}`,
