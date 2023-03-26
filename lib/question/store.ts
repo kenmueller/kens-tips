@@ -18,7 +18,10 @@ export default class QuestionStore {
 	readonly getQuestionByName = (name: string) =>
 		this.questionsByName.get(name) ?? null
 
-	readonly addQuestion = (question: Question) => {
+	readonly addQuestion = (_question: Question) => {
+		// Make a copy of the question so that it can be modified.
+		const question = { ..._question }
+
 		this.questionsById.set(question.id, question)
 		this.questionsByName.set(question.question, question)
 	}

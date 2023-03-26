@@ -1,35 +1,39 @@
 import 'server-only'
 
-if (!process.env.NEXT_PUBLIC_ORIGIN)
-	throw new Error('Missing NEXT_PUBLIC_ORIGIN')
-
-import { sql } from 'slonik'
-import { nanoid } from 'nanoid'
-
 import { connect } from '@/lib/pool'
+import QuestionStore from './store'
+import getQuestionByName from './getByName'
+import getDefaultQuestion from './default'
+import createQuestion from './create'
 
-const saveUnloadedQuestions = async (questions: string[]) => {
-	const results = questions.map(question => ({
-		url: `${process.env.NEXT_PUBLIC_ORIGIN}/q/${encodeURIComponent(question)}`,
-		id: nanoid(),
-		question
-	}))
+const saveUnloadedQuestions = async (names: string[]) =>
+	await connect(connection =>
+		Promise.all(
+			names.map(async name => {
+				const questionInStore = QuestionStore.shared.getQuestionByName(name)
 
-	await connect(async connection => {
-		await connection.query(
-			sql.unsafe`INSERT INTO
-					   questions (id, question)
-					   VALUES ${sql.join(
-								results.map(
-									({ id, question }) =>
-										sql.unsafe`(${sql.join([id, question], sql.fragment`, `)})`
-								),
-								sql.fragment`, `
-							)}`
+				const questionInDatabase = questionInStore
+					? null
+					: await getQuestionByName(name, connection)
+
+				const question =
+					questionInStore ?? questionInDatabase ?? getDefaultQuestion(name)
+
+				const loading = !questionInDatabase
+				const addToStore = loading && !questionInStore
+
+				// Is the first client to load this question.
+				if (addToStore) {
+					QuestionStore.shared.addQuestion(question)
+
+					createQuestion(question, { answer: null, related: null }, connection)
+
+					QuestionStore.shared.removeQuestion(question.id)
+				}
+
+				return question
+			})
 		)
-	})
-
-	return results
-}
+	)
 
 export default saveUnloadedQuestions

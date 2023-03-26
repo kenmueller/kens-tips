@@ -1,20 +1,28 @@
 import 'server-only'
 
-import { sql } from 'slonik'
+import { sql, DatabasePoolConnection } from 'slonik'
 import { parse } from 'postgres-array'
 
-import { connect } from '@/lib/pool'
 import Question from '.'
+import { connect } from '@/lib/pool'
 
-const getQuestionByName = async (name: string) => {
-	const questions = await connect(
-		async connection =>
-			(await connection.any(
-				sql.unsafe`SELECT *
-					   	   FROM questions
-					       WHERE question = ${name}`
-			)) as Question[]
-	)
+const getQuestionByName = async (
+	name: string,
+	connection?: DatabasePoolConnection
+) =>
+	connection
+		? getQuestionByNameWithConnection(name, connection)
+		: connect(connection => getQuestionByNameWithConnection(name, connection))
+
+const getQuestionByNameWithConnection = async (
+	name: string,
+	connection: DatabasePoolConnection
+) => {
+	const questions = (await connection.any(
+		sql.unsafe`SELECT *
+				   FROM questions
+				   WHERE question = ${name}`
+	)) as Question[]
 
 	const question = questions[0]
 	if (!question) return null

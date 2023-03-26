@@ -1,6 +1,8 @@
 import { Suspense } from 'react'
 import Link from 'next/link'
 
+import PreloadRelatedQuestions from './PreloadRelated'
+
 import styles from './Related.module.scss'
 
 const RelatedQuestions = ({
@@ -26,15 +28,20 @@ const RelatedQuestionsResolved = async ({
 }) => {
 	const related = await relatedPromise
 
-	return related.map((question, index) => (
-		<Link
-			key={index}
-			className={styles.link}
-			href={`/q/${encodeURIComponent(question)}`}
-		>
-			{question}
-		</Link>
-	))
+	return (
+		<>
+			<PreloadRelatedQuestions related={related} />
+			{related.map((question, index) => (
+				<Link
+					key={index}
+					className={styles.link}
+					href={`/q/${encodeURIComponent(question)}`}
+				>
+					{question}
+				</Link>
+			))}
+		</>
+	)
 }
 
 export default RelatedQuestions
