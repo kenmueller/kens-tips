@@ -4,14 +4,6 @@ if (!process.env.NEXT_PUBLIC_ORIGIN)
 import { NextResponse } from 'next/server'
 
 import errorFromUnknown from '@/lib/error/fromUnknown'
-import getQuestionNames from '@/lib/question/getNames'
-
-const getPaths = async () => [
-	'',
-	...(await getQuestionNames()).map(
-		question => `/q/${encodeURIComponent(question)}`
-	)
-]
 
 export const GET = async () => {
 	try {
