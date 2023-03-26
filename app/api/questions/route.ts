@@ -38,9 +38,9 @@ export const POST = async (request: NextRequest) => {
 
 		const uniqueNormalizedQuestions = Array.from(new Set(normalizedQuestions))
 
-		const results = load
-			? await saveLoadedQuestions(uniqueNormalizedQuestions)
-			: await saveUnloadedQuestions(uniqueNormalizedQuestions)
+		const results = await (load
+			? saveLoadedQuestions(uniqueNormalizedQuestions)
+			: saveUnloadedQuestions(uniqueNormalizedQuestions))
 
 		return NextResponse.json(results)
 	} catch (unknownError) {
