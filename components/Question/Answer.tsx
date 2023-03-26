@@ -1,5 +1,7 @@
 import { Suspense } from 'react'
 
+import Markdown from '@/components/Markdown'
+
 const Answer = ({ answer }: { answer: Promise<string> }) => (
 	<section>
 		<Suspense fallback={<p>Loading...</p>}>
@@ -16,7 +18,7 @@ const AnswerResolved = async ({
 }) => {
 	const answer = await answerPromise
 
-	return <p>{answer}</p>
+	return <Markdown text={answer} />
 }
 
 export default Answer

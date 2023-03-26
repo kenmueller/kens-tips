@@ -40,12 +40,12 @@ const QuestionPage = async ({
 
 	const commentConfig = {
 		path: `/q/${encodeURIComponent(question.question)}`,
-		id: 'aaaaaaaaaaaaaaaaaaaaa',
-		title: question
+		id: question.id,
+		title: question.question
 	}
 
 	return (
-		<main>
+		<main className={styles.root}>
 			<h1>{question.question}</h1>
 			<p>Views: {question.views}</p>
 			<p>Written on {formatDate(new Date(question.created))}</p>
