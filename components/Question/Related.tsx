@@ -3,8 +3,14 @@ import Link from 'next/link'
 
 import styles from './Related.module.scss'
 
-const RelatedQuestions = ({ related }: { related: Promise<string[]> }) => (
-	<section>
+const RelatedQuestions = ({
+	className,
+	related
+}: {
+	className?: string
+	related: Promise<string[]>
+}) => (
+	<section className={className}>
 		<h3>Related Questions</h3>
 		<Suspense fallback={<p>Loading...</p>}>
 			{/* @ts-ignore */}

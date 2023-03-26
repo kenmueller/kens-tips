@@ -66,9 +66,9 @@ const QuestionPage = async ({
 			<p>Views: {question.views}</p>
 			<p>Written on {formatDate(new Date(question.created))}</p>
 			<CommentCount config={commentConfig} />
-			<Answer answer={answer} />
-			<RelatedQuestions related={relatedQuestions} />
-			<Comments config={commentConfig} />
+			<Answer className={styles.section} answer={answer} />
+			<RelatedQuestions className={styles.section} related={relatedQuestions} />
+			<Comments className={styles.section} config={commentConfig} />
 			<Suspense>
 				{/* @ts-ignore */}
 				<Resolve promise={saveResult} />

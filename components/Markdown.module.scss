@@ -28,6 +28,7 @@
 	}
 
 	pre {
+		white-space: pre-wrap;
 		padding: 0.5rem 1rem;
 		background: rgba(0, 0, 0, 0.5);
 		border: 1px solid theme.$gray;
@@ -42,6 +43,7 @@
 	}
 
 	code {
+		word-wrap: break-word;
 		padding: 0.15rem 0.2rem;
 		background: rgba(0, 0, 0, 0.5);
 		border: 1px solid theme.$gray;

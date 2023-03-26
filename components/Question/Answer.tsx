@@ -2,8 +2,14 @@ import { Suspense } from 'react'
 
 import Markdown from '@/components/Markdown'
 
-const Answer = ({ answer }: { answer: Promise<string> }) => (
-	<section>
+const Answer = ({
+	className,
+	answer
+}: {
+	className?: string
+	answer: Promise<string>
+}) => (
+	<section className={className}>
 		<Suspense fallback={<p>Loading...</p>}>
 			{/* @ts-ignore */}
 			<AnswerResolved answer={answer} />
