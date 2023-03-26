@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS questions (
 	id QUESTION_ID NOT NULL PRIMARY KEY,
 	question QUESTION NOT NULL UNIQUE,
 	answer ANSWER, -- NULL if not answered
-	related QUESTION[3], -- NULL if not found related questions
+	related QUESTION[], -- NULL if not found related questions
 	views VIEWS NOT NULL DEFAULT 0,
 	created TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
