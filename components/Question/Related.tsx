@@ -1,6 +1,8 @@
 import { Suspense } from 'react'
 import Link from 'next/link'
 
+import styles from './Related.module.scss'
+
 const RelatedQuestions = ({ related }: { related: Promise<string[]> }) => (
 	<section>
 		<h3>Related Questions</h3>
@@ -19,7 +21,11 @@ const RelatedQuestionsResolved = async ({
 	const related = await relatedPromise
 
 	return related.map((question, index) => (
-		<Link key={index} href={`/q/${encodeURIComponent(question)}`}>
+		<Link
+			key={index}
+			className={styles.link}
+			href={`/q/${encodeURIComponent(question)}`}
+		>
 			{question}
 		</Link>
 	))
