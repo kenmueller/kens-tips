@@ -32,7 +32,8 @@ const createQuestionWithConnection = async (
 								related && sql.array(related, 'text')
 							],
 							sql.fragment`, `
-						)})`
+						)})
+				   ON CONFLICT DO NOTHING`
 	)
 }
 
