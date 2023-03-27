@@ -1,9 +1,20 @@
 import { ReactNode } from 'react'
 import { Inter } from 'next/font/google'
 
+import theme from '@/styles/theme.module.scss'
 import './layout.scss'
 
 const inter = Inter({ subsets: ['latin'] })
+
+export const metadata = {
+	applicationName: "Ken's Tips",
+	authors: [{ name: 'Ken Mueller', url: 'https://matchwho.io' }],
+	publisher: "Ken's Tips",
+	creator: 'Ken Mueller',
+	colorScheme: 'dark',
+	themeColor: theme.dark,
+	manifest: '/manifest.webmanifest'
+}
 
 const RootLayout = ({ children }: { children: ReactNode }) => (
 	<html lang="en" dir="ltr">

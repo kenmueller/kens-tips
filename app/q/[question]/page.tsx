@@ -1,4 +1,8 @@
-import { Suspense } from 'react'
+if (!process.env.NEXT_PUBLIC_ORIGIN)
+	throw new Error('Missing NEXT_PUBLIC_ORIGIN')
+
+import { Suspense, cache } from 'react'
+import { Metadata } from 'next'
 
 import CommentCount from '@/components/Disqus/CommentCount'
 import Comments from '@/components/Disqus/Comments'
@@ -9,13 +13,77 @@ import formatDate from '@/lib/format/date'
 import CommentConfig from '@/lib/comment/config'
 import Resolve from '@/components/Resolve'
 import Search from '@/components/Search'
-import { connect } from '@/lib/pool'
+import isBot from '@/lib/isBot'
+import preview from '@/assets/preview.jpg'
 
 import styles from './page.module.scss'
 
-export const metadata = {
-	title: "Ken's Tips",
-	description: "Ken's Tips"
+const isBotCached = cache(isBot)
+const loadQuestionByNameCached = cache(loadQuestionByName)
+
+export const generateMetadata = async ({
+	params: { question: name }
+}: {
+	params: { question: string }
+}): Promise<Metadata> => {
+	const bot = isBotCached()
+
+	const normalizedName = decodeURIComponent(name).trim()
+
+	const url = `${process.env.NEXT_PUBLIC_ORIGIN!}/q/${encodeURIComponent(
+		normalizedName
+	)}`
+	const title = `${normalizedName} | Ken's Tips`
+
+	if (bot) {
+		const { question, answer, relatedQuestions, saveResult } =
+			await loadQuestionByNameCached(normalizedName)
+
+		const [answerUnwrapped] = await Promise.all([
+			answer,
+			relatedQuestions,
+			saveResult
+		])
+
+		const description = answerUnwrapped
+		const image = {
+			url: preview.src,
+			width: preview.width,
+			height: preview.height,
+			alt: "Ken's Tips"
+		}
+
+		return {
+			alternates: { canonical: url },
+			title,
+			description,
+			openGraph: {
+				type: 'article',
+				title,
+				description,
+				siteName: "Ken's Tips",
+				locale: 'en_US',
+				url,
+				images: image,
+				countryName: 'United States',
+				publishedTime: new Date(question.created).toISOString(),
+				authors: 'Ken Mueller'
+			},
+			twitter: {
+				card: 'summary',
+				site: '@kens_tips',
+				creator: '@kens_tips',
+				title,
+				description,
+				images: image
+			}
+		}
+	} else {
+		return {
+			alternates: { canonical: url },
+			title: `${normalizedName} | Ken's Tips`
+		}
+	}
 }
 
 const QuestionPage = async ({
@@ -26,7 +94,7 @@ const QuestionPage = async ({
 	const normalizedName = decodeURIComponent(name).trim()
 
 	const { question, answer, relatedQuestions, saveResult } =
-		await loadQuestionByName(normalizedName)
+		await loadQuestionByNameCached(normalizedName)
 
 	const commentConfig: CommentConfig = {
 		path: `/q/${encodeURIComponent(question.question)}`,
