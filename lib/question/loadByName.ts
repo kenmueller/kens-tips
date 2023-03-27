@@ -2,8 +2,6 @@ import 'server-only'
 
 import { DatabasePoolConnection } from 'slonik'
 
-import getQuestionByName from '@/lib/question/getByName'
-import getDefaultQuestion from '@/lib/question/default'
 import getAnswer from '@/lib/question/getAnswer'
 import getRelatedQuestions from '@/lib/question/getRelated'
 import updateQuestion from '@/lib/question/update'
@@ -14,20 +12,11 @@ const loadQuestionByName = async (
 	name: string,
 	connection?: DatabasePoolConnection
 ) => {
-	const questionInStore = QuestionStore.shared.getQuestionByName(name)
+	const questionInStore = await QuestionStore.shared.getQuestionByName(name)
 
-	const questionInDatabase = questionInStore
-		? null
-		: await getQuestionByName(name, connection)
-
-	const question =
-		questionInStore ?? questionInDatabase ?? getDefaultQuestion(name)
-
-	const loading = !(question.answer && question.related)
-	const addToStore = loading && !questionInStore
-
-	// Has missing fields and is the first client to load this question.
-	if (addToStore) QuestionStore.shared.addQuestion(question)
+	const { question, questionInDatabase } = questionInStore
+		? { question: questionInStore, questionInDatabase: false }
+		: await QuestionStore.shared.addQuestion(name, connection)
 
 	const answer = question.answer
 		? Promise.resolve(question.answer) // Has answer already loaded
@@ -49,8 +38,9 @@ const loadQuestionByName = async (
 				return related
 		  })
 
-	const saveResult = addToStore // Has missing fields and is the first client to load this question.
-		? Promise.all([answer, relatedQuestions])
+	const saveResult = questionInStore
+		? Promise.resolve()
+		: Promise.all([answer, relatedQuestions])
 				.then(([answer, relatedQuestions]) =>
 					questionInDatabase
 						? updateQuestion(
@@ -70,7 +60,6 @@ const loadQuestionByName = async (
 				.then(() => {
 					QuestionStore.shared.removeQuestion(question.id)
 				})
-		: Promise.resolve()
 
 	return { question, answer, relatedQuestions, saveResult }
 }

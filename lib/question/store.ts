@@ -1,29 +1,53 @@
 import 'server-only'
 
+import { DatabasePoolConnection } from 'slonik'
+
 import Question from '.'
+import getQuestionByName from './getByName'
+import getDefaultQuestion from './default'
 
 /** Questions are only stored while they are being loaded. */
 export default class QuestionStore {
 	static readonly shared = new QuestionStore()
 
 	private readonly questionsById = new Map<string, Question>()
-	private readonly questionsByName = new Map<string, Question>()
+	private readonly questionsByName = new Map<string, Promise<Question>>()
 
 	private readonly listeners = new Map<string, ((value: unknown) => void)[]>()
-
-	private constructor() {}
 
 	readonly getQuestionById = (id: string) => this.questionsById.get(id) ?? null
 
 	readonly getQuestionByName = (name: string) =>
-		this.questionsByName.get(name) ?? null
+		this.questionsByName.get(name) ?? Promise.resolve(null)
 
-	readonly addQuestion = (_question: Question) => {
-		// Make a copy of the question so that it can be modified.
-		const question = { ..._question }
+	private readonly loadQuestion = async (
+		name: string,
+		connection?: DatabasePoolConnection
+	) => {
+		const questionInDatabase = await getQuestionByName(name, connection)
 
-		this.questionsById.set(question.id, question)
-		this.questionsByName.set(question.question, question)
+		return {
+			question: questionInDatabase ?? getDefaultQuestion(name),
+			questionInDatabase: Boolean(questionInDatabase)
+		}
+	}
+
+	readonly addQuestion = (
+		name: string,
+		connection?: DatabasePoolConnection
+	) => {
+		const promise = this.loadQuestion(name, connection)
+
+		promise.then(({ question }) => {
+			this.questionsById.set(question.id, question)
+		})
+
+		this.questionsByName.set(
+			name,
+			promise.then(({ question }) => question)
+		)
+
+		return promise
 	}
 
 	readonly getField = <Value>(id: string, field: string) =>
@@ -37,7 +61,9 @@ export default class QuestionStore {
 	readonly addField = <Value>(id: string, field: string, value: Value) => {
 		const listeners = this.listeners.get(`${id}.${field}`)
 
-		listeners?.forEach(listener => listener(value))
+		listeners?.forEach(listener => {
+			listener(value)
+		})
 
 		const question = this.getQuestionById(id)
 		if (question)
