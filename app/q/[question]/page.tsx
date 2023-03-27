@@ -21,6 +21,13 @@ import styles from './page.module.scss'
 const isBotCached = cache(isBot)
 const loadQuestionByNameCached = cache(loadQuestionByName)
 
+const image = {
+	url: preview.src,
+	width: preview.width,
+	height: preview.height,
+	alt: "Ken's Tips"
+}
+
 export const generateMetadata = async ({
 	params: { question: name }
 }: {
@@ -46,12 +53,6 @@ export const generateMetadata = async ({
 		])
 
 		const description = answerUnwrapped
-		const image = {
-			url: preview.src,
-			width: preview.width,
-			height: preview.height,
-			alt: "Ken's Tips"
-		}
 
 		return {
 			alternates: { canonical: url },
