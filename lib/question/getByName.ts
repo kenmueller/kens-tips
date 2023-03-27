@@ -19,9 +19,10 @@ const getQuestionByNameWithConnection = async (
 	connection: DatabasePoolConnection
 ) => {
 	const questions = (await connection.any(
+		// Case insensitive match
 		sql.unsafe`SELECT *
 				   FROM questions
-				   WHERE question = ${name}`
+				   WHERE question ILIKE ${name}`
 	)) as Question[]
 
 	const question = questions[0]
