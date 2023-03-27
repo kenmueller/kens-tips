@@ -1,6 +1,8 @@
 import { ReactNode } from 'react'
 import { Inter } from 'next/font/google'
 
+import favicon from '@/assets/favicon.png'
+
 import theme from '@/styles/theme.module.scss'
 import './layout.scss'
 
@@ -13,7 +15,8 @@ export const metadata = {
 	creator: 'Ken Mueller',
 	colorScheme: 'dark',
 	themeColor: theme.dark,
-	manifest: '/manifest.webmanifest'
+	manifest: '/manifest.webmanifest',
+	icons: favicon.src
 }
 
 const RootLayout = ({ children }: { children: ReactNode }) => (
