@@ -13,6 +13,7 @@ import formatDate from '@/lib/format/date'
 import CommentConfig from '@/lib/comment/config'
 import Resolve from '@/components/Resolve'
 import Search from '@/components/Search'
+import QuestionStructuredData from '@/components/Question/StructuredData'
 import isBot from '@/lib/isBot'
 import preview from '@/assets/preview.jpg'
 
@@ -115,6 +116,7 @@ const QuestionPage = async ({
 			<Answer className={styles.section} answer={answer} />
 			<RelatedQuestions className={styles.section} related={relatedQuestions} />
 			<Comments className={styles.section} config={commentConfig} />
+			<QuestionStructuredData question={question} answer={answer} />
 			<Suspense>
 				{/* @ts-ignore */}
 				<Resolve promise={saveResult} />

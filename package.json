@@ -23,6 +23,7 @@
 		"postgres-array": "^3.0.2",
 		"react": "18.2.0",
 		"react-dom": "18.2.0",
+		"schema-dts": "^1.1.2",
 		"server-only": "^0.0.1",
 		"showdown": "^2.1.0",
 		"slonik": "^33.1.4"

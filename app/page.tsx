@@ -1,7 +1,10 @@
 if (!process.env.NEXT_PUBLIC_ORIGIN)
 	throw new Error('Missing NEXT_PUBLIC_ORIGIN')
 
+import { Blog } from 'schema-dts'
+
 import Search from '@/components/Search'
+import StructuredData from '@/components/StructuredData'
 import preview from '@/assets/preview.jpg'
 
 import styles from './page.module.scss'
@@ -15,6 +18,10 @@ const image = {
 	height: preview.height,
 	alt: "Ken's Tips"
 }
+
+const structuredDataTitle = "Ken's Tips"
+const structuredDataDescription =
+	'A series of questions and answers by Ken Mueller'
 
 export const metadata = {
 	alternates: { canonical: url },
@@ -44,6 +51,19 @@ const HomePage = () => (
 	<main className={styles.root}>
 		<h1 className={styles.title}>Ken's Tips</h1>
 		<Search />
+		<StructuredData<Blog>
+			data={{
+				'@context': 'https://schema.org',
+				'@type': 'Blog',
+				about: structuredDataDescription,
+				description: structuredDataDescription,
+				abstract: structuredDataDescription,
+				author: 'Ken Mueller',
+				name: structuredDataTitle,
+				image: image.url,
+				inLanguage: 'English'
+			}}
+		/>
 	</main>
 )
 
