@@ -33,6 +33,8 @@ const structuredDataTitle = "Ken's Tips"
 const structuredDataDescription =
 	'A series of questions and answers by Ken Mueller'
 
+export const revalidate = 3600
+
 export const metadata = {
 	alternates: { canonical: url },
 	title,

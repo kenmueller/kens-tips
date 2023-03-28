@@ -34,6 +34,8 @@ const image = {
 	alt: "Ken's Tips"
 }
 
+export const revalidate = 3600
+
 export const generateMetadata = async ({
 	params: { question: name }
 }: {
