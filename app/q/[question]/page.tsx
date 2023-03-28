@@ -106,12 +106,12 @@ const QuestionPage = async ({
 	}
 
 	return (
-		<main className={styles.root}>
+		<div className={styles.root}>
 			<nav className={styles.nav}>
 				<Link className={styles.title} href="/">
 					Ken's Tips
 				</Link>
-				<Search />
+				<Search className={styles.search} />
 			</nav>
 			<h1 className={styles.question}>{question.question}</h1>
 			<section className={styles.info}>
@@ -122,7 +122,7 @@ const QuestionPage = async ({
 			<Answer className={styles.answer} answer={answer} />
 			<RelatedQuestions className={styles.related} related={relatedQuestions} />
 			<Comments className={styles.comments} config={commentConfig} />
-			<div className={styles.bottomSpacer} />
+			<div className={styles.bottomSpacer} aria-hidden />
 			<QuestionStructuredData question={question} answer={answer} />
 			<Suspense>
 				{/* @ts-ignore */}
@@ -135,7 +135,7 @@ const QuestionPage = async ({
 					bot
 				}}
 			/>
-		</main>
+		</div>
 	)
 }
 

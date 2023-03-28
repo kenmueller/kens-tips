@@ -62,10 +62,14 @@ const HomePage = async () => {
 	const topQuestions = getTopQuestionsCached(TOP_QUESTIONS_COUNT)
 
 	return (
-		<main className={styles.root}>
-			<h1 className={styles.title}>Ken's Tips</h1>
-			<p className={styles.subtitle}>{description}</p>
-			<Search className={styles.search} autoFocus />
+		<div className={styles.root}>
+			<main>
+				<h1 className={styles.title}>Ken's Tips</h1>
+				<p className={styles.subtitle}>{description}</p>
+			</main>
+			<section className={styles.searchContainer}>
+				<Search className={styles.search} autoFocus />
+			</section>
 			<TopQuestions className={styles.topQuestions} questions={topQuestions} />
 			<div className={styles.bottomSpacer} aria-hidden />
 			<StructuredData<Blog>
@@ -82,7 +86,7 @@ const HomePage = async () => {
 				}}
 			/>
 			<PageView params={{ page_path: '/', page_title: title, bot }} />
-		</main>
+		</div>
 	)
 }
 

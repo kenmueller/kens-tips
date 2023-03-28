@@ -9,12 +9,12 @@ const Answer = ({
 	className?: string
 	answer: Promise<string>
 }) => (
-	<section className={className}>
+	<main className={className}>
 		<Suspense fallback={<p>Loading...</p>}>
 			{/* @ts-ignore */}
 			<AnswerResolved answer={answer} />
 		</Suspense>
-	</section>
+	</main>
 )
 
 const AnswerResolved = async ({

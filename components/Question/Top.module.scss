@@ -19,13 +19,9 @@
 		color: rgba(theme.$blue, 0.7);
 	}
 
-	&:not(:last-child) {
-		border-bottom: 2px solid theme.$gray;
+	& + & {
+		border-top: 2px solid theme.$gray;
 	}
-}
-
-.questionName {
-	word-break: break-word;
 }
 
 .questionViews {

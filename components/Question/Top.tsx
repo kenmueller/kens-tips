@@ -34,7 +34,7 @@ const TopQuestionsResolved = async ({
 			className={styles.question}
 			href={`/q/${encodeURIComponent(question.question)}`}
 		>
-			<span className={styles.questionName}>{question.question}</span>
+			<span>{question.question}</span>
 			<span className={styles.questionViews}>
 				{question.views} view{question.views === 1 ? '' : 's'}
 			</span>

@@ -1,5 +1,7 @@
 import { Suspense } from 'react'
 import Link from 'next/link'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faChevronRight } from '@fortawesome/free-solid-svg-icons'
 
 import PreloadRelatedQuestions from './PreloadRelated'
 
@@ -13,7 +15,7 @@ const RelatedQuestions = ({
 	related: Promise<string[]>
 }) => (
 	<section className={className}>
-		<h3>Related Questions</h3>
+		<h3 className={styles.title}>Related Questions</h3>
 		<Suspense fallback={<p>Loading...</p>}>
 			{/* @ts-ignore */}
 			<RelatedQuestionsResolved related={related} />
@@ -38,6 +40,7 @@ const RelatedQuestionsResolved = async ({
 					href={`/q/${encodeURIComponent(question)}`}
 				>
 					{question}
+					<FontAwesomeIcon className={styles.linkIcon} icon={faChevronRight} />
 				</Link>
 			))}
 		</>

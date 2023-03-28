@@ -5,11 +5,13 @@
 	align-items: center;
 	max-width: 100%;
 	width: max-content;
+
+	--input-width: 25rem;
 }
 
 .inputContainer {
 	position: relative;
-	width: 25rem;
+	width: var(--input-width);
 }
 
 .input {
