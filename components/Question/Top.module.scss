@@ -23,3 +23,13 @@
 		border-bottom: 2px solid theme.$gray;
 	}
 }
+
+.questionName {
+	word-break: break-word;
+}
+
+.questionViews {
+	flex-shrink: 0;
+	margin-left: 1rem;
+	font-weight: 700;
+}
