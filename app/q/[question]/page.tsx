@@ -18,6 +18,7 @@ import isBot from '@/lib/isBot'
 import preview from '@/assets/preview.jpg'
 
 import styles from './page.module.scss'
+import Views from '@/components/Question/Views'
 
 const isBotCached = cache(isBot)
 const loadQuestionByNameCached = cache(loadQuestionByName)
@@ -93,6 +94,8 @@ const QuestionPage = async ({
 }: {
 	params: { question: string }
 }) => {
+	const bot = isBotCached()
+
 	const normalizedName = decodeURIComponent(name).trim()
 
 	const { question, answer, relatedQuestions, saveResult } =
@@ -110,7 +113,7 @@ const QuestionPage = async ({
 				<Search />
 			</nav>
 			<h1>{question.question}</h1>
-			<p>Views: {question.views}</p>
+			<Views question={question} bot={bot} />
 			<p>Written on {formatDate(new Date(question.created))}</p>
 			<CommentCount config={commentConfig} />
 			<Answer className={styles.section} answer={answer} />

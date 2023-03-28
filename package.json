@@ -15,6 +15,7 @@
 		"classnames": "^2.3.2",
 		"client-only": "^0.0.1",
 		"disqus-react": "^1.1.5",
+		"firebase": "^9.18.0",
 		"isbot": "^3.6.7",
 		"long": "^5.2.1",
 		"nanoid": "^4.0.1",
