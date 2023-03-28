@@ -5,17 +5,12 @@ if (!process.env.NEXT_PUBLIC_ORIGIN)
 if (!process.env.NEXT_PUBLIC_DISQUS_SHORTNAME)
 	throw new Error('Missing NEXT_PUBLIC_DISQUS_SHORTNAME')
 
-import dynamic from 'next/dynamic'
+import { DiscussionEmbed as _Comments } from 'disqus-react'
 import cx from 'classnames'
 
 import CommentConfig from '@/lib/comment/config'
 
 import styles from './Comments.module.scss'
-
-const _Comments = dynamic(
-	() => import('disqus-react').then(module => module.DiscussionEmbed),
-	{ ssr: false }
-)
 
 const Comments = ({
 	className,

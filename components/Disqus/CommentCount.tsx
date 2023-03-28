@@ -5,14 +5,9 @@ if (!process.env.NEXT_PUBLIC_ORIGIN)
 if (!process.env.NEXT_PUBLIC_DISQUS_SHORTNAME)
 	throw new Error('Missing NEXT_PUBLIC_DISQUS_SHORTNAME')
 
-import dynamic from 'next/dynamic'
+import { CommentCount as _CommentCount } from 'disqus-react'
 
 import CommentConfig from '@/lib/comment/config'
-
-const _CommentCount = dynamic(
-	() => import('disqus-react').then(module => module.CommentCount),
-	{ ssr: false }
-)
 
 const CommentCount = ({ config }: { config: CommentConfig }) => (
 	<_CommentCount
