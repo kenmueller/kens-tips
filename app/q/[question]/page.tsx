@@ -18,12 +18,14 @@ import QuestionStructuredData from '@/components/Question/StructuredData'
 import isBot from '@/lib/isBot'
 import Views from '@/components/Question/Views'
 import PageView from '@/components/PageView'
+import getRelatedQuestionsWithInfo from '@/lib/question/getRelatedWithInfo'
 import preview from '@/assets/preview.jpg'
 
 import styles from './page.module.scss'
 
 const isBotCached = cache(isBot)
 const loadQuestionByNameCached = cache(loadQuestionByName)
+const getRelatedQuestionsWithInfoCached = cache(getRelatedQuestionsWithInfo)
 
 const image = {
 	url: preview.src,
@@ -99,6 +101,10 @@ const QuestionPage = async ({
 	const { question, answer, relatedQuestions, saveResult } =
 		await loadQuestionByNameCached(normalizedName)
 
+	const relatedQuestionsWithInfo = relatedQuestions.then(
+		getRelatedQuestionsWithInfoCached
+	)
+
 	const commentConfig: CommentConfig = {
 		path: `/q/${encodeURIComponent(question.question)}`,
 		id: question.id,
@@ -120,7 +126,10 @@ const QuestionPage = async ({
 				<CommentCount config={commentConfig} />
 			</section>
 			<Answer className={styles.answer} answer={answer} />
-			<RelatedQuestions className={styles.related} related={relatedQuestions} />
+			<RelatedQuestions
+				className={styles.related}
+				related={relatedQuestionsWithInfo}
+			/>
 			<Comments className={styles.comments} config={commentConfig} />
 			<div className={styles.bottomSpacer} aria-hidden />
 			<QuestionStructuredData question={question} answer={answer} />

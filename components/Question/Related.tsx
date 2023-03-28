@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChevronRight } from '@fortawesome/free-solid-svg-icons'
 
+import { RelatedQuestionWithInfo } from '@/lib/question/getRelatedWithInfo'
 import PreloadRelatedQuestions from './PreloadRelated'
 
 import styles from './Related.module.scss'
@@ -12,7 +13,7 @@ const RelatedQuestions = ({
 	related
 }: {
 	className?: string
-	related: Promise<string[]>
+	related: Promise<RelatedQuestionWithInfo[]>
 }) => (
 	<section className={className}>
 		<h3 className={styles.title}>Related Questions</h3>
@@ -26,20 +27,21 @@ const RelatedQuestions = ({
 const RelatedQuestionsResolved = async ({
 	related: relatedPromise
 }: {
-	related: Promise<string[]>
+	related: Promise<RelatedQuestionWithInfo[]>
 }) => {
 	const related = await relatedPromise
 
 	return (
 		<>
-			<PreloadRelatedQuestions related={related} />
-			{related.map((question, index) => (
+			<PreloadRelatedQuestions related={related.map(({ name }) => name)} />
+			{related.map(({ name, info }, index) => (
 				<Link
 					key={index}
 					className={styles.link}
-					href={`/q/${encodeURIComponent(question)}`}
+					rel={(info?.views ?? 0) > 0 ? undefined : 'nofollow'} // Follow links to questions with views
+					href={`/q/${encodeURIComponent(name)}`}
 				>
-					{question}
+					{name}
 					<FontAwesomeIcon className={styles.linkIcon} icon={faChevronRight} />
 				</Link>
 			))}
