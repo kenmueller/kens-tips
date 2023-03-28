@@ -108,16 +108,20 @@ const QuestionPage = async ({
 	return (
 		<main className={styles.root}>
 			<nav className={styles.nav}>
-				<Link href="/">Ken's Tips</Link>
+				<Link className={styles.title} href="/">
+					Ken's Tips
+				</Link>
 				<Search />
 			</nav>
-			<h1>{question.question}</h1>
-			<Views question={question} bot={bot} />
-			<p>Written on {formatDate(new Date(question.created))}</p>
-			<CommentCount config={commentConfig} />
-			<Answer className={styles.section} answer={answer} />
-			<RelatedQuestions className={styles.section} related={relatedQuestions} />
-			<Comments className={styles.section} config={commentConfig} />
+			<h1 className={styles.question}>{question.question}</h1>
+			<section className={styles.info}>
+				<p>Written on {formatDate(new Date(question.created))}</p>
+				<Views question={question} bot={bot} />
+				<CommentCount config={commentConfig} />
+			</section>
+			<Answer className={styles.answer} answer={answer} />
+			<RelatedQuestions className={styles.related} related={relatedQuestions} />
+			<Comments className={styles.comments} config={commentConfig} />
 			<QuestionStructuredData question={question} answer={answer} />
 			<Suspense>
 				{/* @ts-ignore */}
