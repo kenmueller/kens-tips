@@ -18,6 +18,9 @@ const loadQuestionByName = async (
 		? { question: questionInStore, questionInDatabase: false }
 		: await QuestionStore.shared.addQuestion(name, connection)
 
+	const originalAnswer = question.answer
+	const originalRelated = question.related
+
 	const answer = question.answer
 		? Promise.resolve(question.answer) // Has answer already loaded
 		: questionInStore // If another client is already loading the answer
@@ -46,8 +49,8 @@ const loadQuestionByName = async (
 						? updateQuestion(
 								question.id,
 								{
-									answer: question.answer ? null : answer,
-									related: question.related ? null : relatedQuestions
+									answer: originalAnswer ? null : answer,
+									related: originalRelated ? null : relatedQuestions
 								},
 								connection
 						  )
