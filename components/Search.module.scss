@@ -3,19 +3,39 @@
 .root {
 	display: flex;
 	align-items: center;
+	max-width: 100%;
+	width: max-content;
+}
+
+.inputContainer {
+	position: relative;
+	width: 25rem;
 }
 
 .input {
+	width: 100%;
+	padding: 0.5rem 1rem 0.5rem 2rem;
 	color: theme.$white;
 	background: rgba(theme.$white, 0.1);
+	border-radius: 0.5rem;
 
 	&::placeholder {
 		color: rgba(theme.$white, 0.5);
 	}
 }
 
+.icon {
+	position: absolute;
+	top: 9px;
+	left: 8px;
+	color: rgba(theme.$white, 0.5);
+}
+
 .submit {
-	color: theme.$white;
+	flex-shrink: 0;
+	margin-left: 0.75rem;
+	font-weight: 700;
+	color: theme.$blue;
 	transition: opacity 0.3s;
 
 	&:disabled {

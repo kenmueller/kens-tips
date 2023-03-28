@@ -27,6 +27,13 @@ body {
 	background: theme.$dark;
 }
 
+input,
+textarea,
+a,
+button {
+	font-size: 1rem;
+}
+
 a {
 	text-decoration: none;
 }

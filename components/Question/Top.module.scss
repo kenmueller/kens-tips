@@ -1,8 +1,25 @@
 @use 'theme';
 
+.title {
+	margin-bottom: 1rem;
+}
+
+.loading,
+.question {
+	padding: 1rem 0;
+}
+
 .question {
 	display: flex;
 	justify-content: space-between;
-	margin-top: 0.5rem;
 	color: theme.$blue;
+	transition: color 0.3s;
+
+	&:hover {
+		color: rgba(theme.$blue, 0.7);
+	}
+
+	&:not(:last-child) {
+		border-bottom: 2px solid theme.$gray;
+	}
 }

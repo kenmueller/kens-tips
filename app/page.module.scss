@@ -1,6 +1,28 @@
+$vertical-padding: 2rem;
+
 .root {
 	max-width: 80rem;
+	width: 95%;
 	height: 100%;
 	margin: 0 auto;
-	padding: 1rem 2rem;
+	padding-top: $vertical-padding;
+}
+
+.subtitle {
+	margin-top: 0.5rem;
+	font-size: 1.2rem;
+	font-weight: 700;
+	opacity: 0.5;
+}
+
+.search {
+	margin: 2rem auto 0;
+}
+
+.topQuestions {
+	margin-top: 2rem;
+}
+
+.bottomSpacer {
+	height: $vertical-padding;
 }

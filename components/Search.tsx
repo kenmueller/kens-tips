@@ -1,14 +1,32 @@
 'use client'
 
-import { ChangeEvent, FormEvent, useCallback, useState } from 'react'
+import {
+	ChangeEvent,
+	FormEvent,
+	useCallback,
+	useEffect,
+	useRef,
+	useState
+} from 'react'
 import { useRouter } from 'next/navigation'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
+import cx from 'classnames'
 
 import logEvent from '@/lib/logEvent/lazy'
 
 import styles from './Search.module.scss'
 
-const Search = () => {
+const Search = ({
+	className,
+	autoFocus = false
+}: {
+	className?: string
+	autoFocus?: boolean
+}) => {
 	const router = useRouter()
+
+	const input = useRef<HTMLInputElement | null>(null)
 
 	const [question, setQuestion] = useState('')
 	const normalizedQuestion = question.trim()
@@ -36,14 +54,22 @@ const Search = () => {
 		[router, normalizedQuestion]
 	)
 
+	useEffect(() => {
+		if (autoFocus) input.current?.focus()
+	}, [input, autoFocus])
+
 	return (
-		<form className={styles.root} onSubmit={onSubmit}>
-			<input
-				className={styles.input}
-				value={question}
-				placeholder="Question"
-				onChange={onChange}
-			/>
+		<form className={cx(styles.root, className)} onSubmit={onSubmit}>
+			<div className={styles.inputContainer}>
+				<input
+					ref={input}
+					className={styles.input}
+					value={question}
+					placeholder="Question"
+					onChange={onChange}
+				/>
+				<FontAwesomeIcon className={styles.icon} icon={faMagnifyingGlass} />
+			</div>
 			<button className={styles.submit} disabled={!normalizedQuestion}>
 				Search
 			</button>

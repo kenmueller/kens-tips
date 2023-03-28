@@ -5,10 +5,16 @@ import Question from '@/lib/question'
 
 import styles from './Top.module.scss'
 
-const TopQuestions = ({ questions }: { questions: Promise<Question[]> }) => (
-	<section>
-		<h2>Top Questions</h2>
-		<Suspense fallback={<p>Loading...</p>}>
+const TopQuestions = ({
+	className,
+	questions
+}: {
+	className?: string
+	questions: Promise<Question[]>
+}) => (
+	<section className={className}>
+		<h2 className={styles.title}>Top Questions</h2>
+		<Suspense fallback={<p className={styles.loading}>Loading...</p>}>
 			{/* @ts-ignore */}
 			<TopQuestionsResolved questions={questions} />
 		</Suspense>

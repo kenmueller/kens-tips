@@ -64,8 +64,10 @@ const HomePage = async () => {
 	return (
 		<main className={styles.root}>
 			<h1 className={styles.title}>Ken's Tips</h1>
-			<Search />
-			<TopQuestions questions={topQuestions} />
+			<p className={styles.subtitle}>{description}</p>
+			<Search className={styles.search} autoFocus />
+			<TopQuestions className={styles.topQuestions} questions={topQuestions} />
+			<div className={styles.bottomSpacer} />
 			<StructuredData<Blog>
 				data={{
 					'@context': 'https://schema.org',
