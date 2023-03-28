@@ -1,12 +1,17 @@
 if (!process.env.NEXT_PUBLIC_ORIGIN)
 	throw new Error('Missing NEXT_PUBLIC_ORIGIN')
 
+import { cache } from 'react'
 import { Blog } from 'schema-dts'
 
 import preview from '@/assets/preview.jpg'
 import StructuredData from '@/components/StructuredData'
+import PageView from '@/components/PageView'
+import isBot from '@/lib/isBot'
 
 import styles from './page.module.scss'
+
+const isBotCached = cache(isBot)
 
 const url = process.env.NEXT_PUBLIC_ORIGIN
 const title = "Comment Policy | Ken's Tips"
@@ -46,27 +51,32 @@ export const metadata = {
 	}
 }
 
-const CommentPolicyPage = () => (
-	<main className={styles.root}>
-		<h1>Comment Policy</h1>
-		<p className={styles.description}>
-			We welcome relevant and respectful comments. Off-topic comments may be
-			removed.
-		</p>
-		<StructuredData<Blog>
-			data={{
-				'@context': 'https://schema.org',
-				'@type': 'Blog',
-				about: structuredDataDescription,
-				description: structuredDataDescription,
-				abstract: structuredDataDescription,
-				author: 'Ken Mueller',
-				name: structuredDataTitle,
-				image: image.url,
-				inLanguage: 'English'
-			}}
-		/>
-	</main>
-)
+const CommentPolicyPage = () => {
+	const bot = isBotCached()
+
+	return (
+		<main className={styles.root}>
+			<h1>Comment Policy</h1>
+			<p className={styles.description}>
+				We welcome relevant and respectful comments. Off-topic comments may be
+				removed.
+			</p>
+			<StructuredData<Blog>
+				data={{
+					'@context': 'https://schema.org',
+					'@type': 'Blog',
+					about: structuredDataDescription,
+					description: structuredDataDescription,
+					abstract: structuredDataDescription,
+					author: 'Ken Mueller',
+					name: structuredDataTitle,
+					image: image.url,
+					inLanguage: 'English'
+				}}
+			/>
+			<PageView params={{ page_path: '/comments', page_title: title, bot }} />
+		</main>
+	)
+}
 
 export default CommentPolicyPage

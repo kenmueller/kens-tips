@@ -15,10 +15,11 @@ import Resolve from '@/components/Resolve'
 import Search from '@/components/Search'
 import QuestionStructuredData from '@/components/Question/StructuredData'
 import isBot from '@/lib/isBot'
+import Views from '@/components/Question/Views'
+import PageView from '@/components/PageView'
 import preview from '@/assets/preview.jpg'
 
 import styles from './page.module.scss'
-import Views from '@/components/Question/Views'
 
 const isBotCached = cache(isBot)
 const loadQuestionByNameCached = cache(loadQuestionByName)
@@ -39,11 +40,6 @@ export const generateMetadata = async ({
 
 	const normalizedName = decodeURIComponent(name).trim()
 
-	const url = `${process.env.NEXT_PUBLIC_ORIGIN!}/q/${encodeURIComponent(
-		normalizedName
-	)}`
-	const title = `${normalizedName} | Ken's Tips`
-
 	if (bot) {
 		const { question, answer, relatedQuestions, saveResult } =
 			await loadQuestionByNameCached(normalizedName)
@@ -54,6 +50,10 @@ export const generateMetadata = async ({
 			saveResult
 		])
 
+		const url = `${process.env.NEXT_PUBLIC_ORIGIN!}/q/${encodeURIComponent(
+			question.question
+		)}`
+		const title = `${question.question} | Ken's Tips`
 		const description = answerUnwrapped
 
 		return {
@@ -82,10 +82,7 @@ export const generateMetadata = async ({
 			}
 		}
 	} else {
-		return {
-			alternates: { canonical: url },
-			title: `${normalizedName} | Ken's Tips`
-		}
+		return { title: `${normalizedName} | Ken's Tips` }
 	}
 }
 
@@ -124,6 +121,13 @@ const QuestionPage = async ({
 				{/* @ts-ignore */}
 				<Resolve promise={saveResult} />
 			</Suspense>
+			<PageView
+				params={{
+					page_path: `/q/${encodeURIComponent(question.question)}`,
+					page_title: `${question.question} | Ken's Tips`,
+					bot
+				}}
+			/>
 		</main>
 	)
 }

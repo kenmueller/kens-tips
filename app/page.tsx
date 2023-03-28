@@ -1,13 +1,18 @@
 if (!process.env.NEXT_PUBLIC_ORIGIN)
 	throw new Error('Missing NEXT_PUBLIC_ORIGIN')
 
+import { cache } from 'react'
 import { Blog } from 'schema-dts'
 
 import Search from '@/components/Search'
 import StructuredData from '@/components/StructuredData'
+import PageView from '@/components/PageView'
+import isBot from '@/lib/isBot'
 import preview from '@/assets/preview.jpg'
 
 import styles from './page.module.scss'
+
+const isBotCached = cache(isBot)
 
 const url = process.env.NEXT_PUBLIC_ORIGIN
 const title = "Ken's Tips"
@@ -47,24 +52,29 @@ export const metadata = {
 	}
 }
 
-const HomePage = () => (
-	<main className={styles.root}>
-		<h1 className={styles.title}>Ken's Tips</h1>
-		<Search />
-		<StructuredData<Blog>
-			data={{
-				'@context': 'https://schema.org',
-				'@type': 'Blog',
-				about: structuredDataDescription,
-				description: structuredDataDescription,
-				abstract: structuredDataDescription,
-				author: 'Ken Mueller',
-				name: structuredDataTitle,
-				image: image.url,
-				inLanguage: 'English'
-			}}
-		/>
-	</main>
-)
+const HomePage = () => {
+	const bot = isBotCached()
+
+	return (
+		<main className={styles.root}>
+			<h1 className={styles.title}>Ken's Tips</h1>
+			<Search />
+			<StructuredData<Blog>
+				data={{
+					'@context': 'https://schema.org',
+					'@type': 'Blog',
+					about: structuredDataDescription,
+					description: structuredDataDescription,
+					abstract: structuredDataDescription,
+					author: 'Ken Mueller',
+					name: structuredDataTitle,
+					image: image.url,
+					inLanguage: 'English'
+				}}
+			/>
+			<PageView params={{ page_path: '/', page_title: title, bot }} />
+		</main>
+	)
+}
 
 export default HomePage

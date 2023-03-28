@@ -1,6 +1,6 @@
 import { getAnalytics, logEvent as _logEvent } from 'firebase/analytics'
 
-import app from './firebase'
+import app from '@/lib/firebase'
 
 const analytics = getAnalytics(app)
 
