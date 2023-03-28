@@ -3,6 +3,8 @@
 import { ChangeEvent, FormEvent, useCallback, useState } from 'react'
 import { useRouter } from 'next/navigation'
 
+import logEvent from '@/lib/logEvent/lazy'
+
 import styles from './Search.module.scss'
 
 const Search = () => {
@@ -21,6 +23,12 @@ const Search = () => {
 	const onSubmit = useCallback(
 		(event: FormEvent<HTMLFormElement>) => {
 			event.preventDefault()
+
+			logEvent('search', {
+				page_path: window.location.pathname,
+				page_title: document.title,
+				search_term: normalizedQuestion
+			}).catch(console.error)
 
 			if (normalizedQuestion)
 				router.push(`/q/${encodeURIComponent(normalizedQuestion)}`)
