@@ -2,6 +2,5 @@
 
 ## TODO
 
-- Update views when not bot
 - Analytics
 - Styles
