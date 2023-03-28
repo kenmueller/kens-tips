@@ -16,7 +16,7 @@ const PreloadRelatedQuestions = ({ related }: { related: string[] }) => {
 	}, [related])
 
 	useEffect(() => {
-		preloadRelated().catch(console.error)
+		// preloadRelated().catch(console.error)
 	}, [preloadRelated])
 
 	return null

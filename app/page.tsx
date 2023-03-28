@@ -8,11 +8,16 @@ import Search from '@/components/Search'
 import StructuredData from '@/components/StructuredData'
 import PageView from '@/components/PageView'
 import isBot from '@/lib/isBot'
+import getTopQuestions from '@/lib/question/getTop'
+import TopQuestions from '@/components/Question/Top'
 import preview from '@/assets/preview.jpg'
 
 import styles from './page.module.scss'
 
+const TOP_QUESTIONS_COUNT = 100
+
 const isBotCached = cache(isBot)
+const getTopQuestionsCached = cache(getTopQuestions)
 
 const url = process.env.NEXT_PUBLIC_ORIGIN
 const title = "Ken's Tips"
@@ -52,13 +57,15 @@ export const metadata = {
 	}
 }
 
-const HomePage = () => {
+const HomePage = async () => {
 	const bot = isBotCached()
+	const topQuestions = getTopQuestionsCached(TOP_QUESTIONS_COUNT)
 
 	return (
 		<main className={styles.root}>
 			<h1 className={styles.title}>Ken's Tips</h1>
 			<Search />
+			<TopQuestions questions={topQuestions} />
 			<StructuredData<Blog>
 				data={{
 					'@context': 'https://schema.org',

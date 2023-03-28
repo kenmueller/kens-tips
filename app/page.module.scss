@@ -1,11 +1,6 @@
 .root {
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
+	max-width: 80rem;
 	height: 100%;
-}
-
-.title {
-	text-align: center;
+	margin: 0 auto;
+	padding: 1rem 2rem;
 }

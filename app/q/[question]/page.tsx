@@ -3,6 +3,7 @@ if (!process.env.NEXT_PUBLIC_ORIGIN)
 
 import { Suspense, cache } from 'react'
 import { Metadata } from 'next'
+import Link from 'next/link'
 
 import CommentCount from '@/components/Disqus/CommentCount'
 import Comments from '@/components/Disqus/Comments'
@@ -106,7 +107,8 @@ const QuestionPage = async ({
 
 	return (
 		<main className={styles.root}>
-			<nav>
+			<nav className={styles.nav}>
+				<Link href="/">Ken's Tips</Link>
 				<Search />
 			</nav>
 			<h1>{question.question}</h1>
