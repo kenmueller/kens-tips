@@ -10,6 +10,7 @@ import PageView from '@/components/PageView'
 import isBot from '@/lib/isBot'
 
 import styles from './page.module.scss'
+import Link from 'next/link'
 
 const isBotCached = cache(isBot)
 
@@ -56,11 +57,17 @@ const CommentPolicyPage = () => {
 
 	return (
 		<main className={styles.root}>
-			<h1>Comment Policy</h1>
+			<h1 className={styles.title}>
+				<Link className={styles.home} href="/">
+					Ken's Tips
+				</Link>{' '}
+				Comment Policy
+			</h1>
 			<p className={styles.description}>
 				We welcome relevant and respectful comments. Off-topic comments may be
 				removed.
 			</p>
+			<div className={styles.bottomSpacer} />
 			<StructuredData<Blog>
 				data={{
 					'@context': 'https://schema.org',
