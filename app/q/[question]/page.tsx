@@ -122,6 +122,7 @@ const QuestionPage = async ({
 			<Answer className={styles.answer} answer={answer} />
 			<RelatedQuestions className={styles.related} related={relatedQuestions} />
 			<Comments className={styles.comments} config={commentConfig} />
+			<div className={styles.bottomSpacer} />
 			<QuestionStructuredData question={question} answer={answer} />
 			<Suspense>
 				{/* @ts-ignore */}
