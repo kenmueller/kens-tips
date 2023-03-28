@@ -13,7 +13,6 @@ export const metadata = {
 	authors: [{ name: 'Ken Mueller', url: 'https://matchwho.io' }],
 	publisher: "Ken's Tips",
 	creator: 'Ken Mueller',
-	colorScheme: 'dark',
 	themeColor: theme.dark,
 	manifest: '/manifest.webmanifest',
 	icons: favicon.src
