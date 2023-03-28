@@ -67,7 +67,7 @@ const HomePage = async () => {
 			<p className={styles.subtitle}>{description}</p>
 			<Search className={styles.search} autoFocus />
 			<TopQuestions className={styles.topQuestions} questions={topQuestions} />
-			<div className={styles.bottomSpacer} />
+			<div className={styles.bottomSpacer} aria-hidden />
 			<StructuredData<Blog>
 				data={{
 					'@context': 'https://schema.org',

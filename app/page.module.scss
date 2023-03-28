@@ -1,11 +1,15 @@
-$vertical-padding: 2rem;
-
 .root {
 	max-width: 80rem;
 	width: 95%;
 	height: 100%;
 	margin: 0 auto;
-	padding-top: $vertical-padding;
+	padding-top: var(--vertical-padding);
+
+	--vertical-padding: 1rem;
+
+	@media (min-width: 68.75rem) {
+		--vertical-padding: 2rem;
+	}
 }
 
 .title {
@@ -28,5 +32,5 @@ $vertical-padding: 2rem;
 }
 
 .bottomSpacer {
-	height: $vertical-padding;
+	height: var(--vertical-padding);
 }
