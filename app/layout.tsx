@@ -11,7 +11,7 @@ import theme from '@/styles/theme.module.scss'
 import '@fortawesome/fontawesome-svg-core/styles.css'
 import './layout.scss'
 
-const inter = Inter({ subsets: ['latin'] })
+const inter = Inter({ subsets: ['latin'], display: 'swap' })
 
 export const metadata = {
 	applicationName: "Ken's Tips",
