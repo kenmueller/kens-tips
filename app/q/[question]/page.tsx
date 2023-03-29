@@ -139,6 +139,7 @@ const QuestionPage = async ({
 			<RelatedQuestions
 				className={styles.related}
 				related={relatedQuestionsWithInfo}
+				bot={bot}
 			/>
 			{!bot && <Comments className={styles.comments} config={commentConfig} />}
 			<div className={styles.bottomSpacer} aria-hidden />

@@ -10,30 +10,36 @@ import styles from './Related.module.scss'
 
 const RelatedQuestions = ({
 	className,
-	related
+	related,
+	bot
 }: {
 	className?: string
 	related: Promise<RelatedQuestionWithInfo[]>
+	bot: boolean
 }) => (
 	<section className={className}>
 		<h2 className={styles.title}>Related Questions</h2>
 		<Suspense fallback={<p>Loading...</p>}>
 			{/* @ts-ignore */}
-			<RelatedQuestionsResolved related={related} />
+			<RelatedQuestionsResolved related={related} bot={bot} />
 		</Suspense>
 	</section>
 )
 
 const RelatedQuestionsResolved = async ({
-	related: relatedPromise
+	related: relatedPromise,
+	bot
 }: {
 	related: Promise<RelatedQuestionWithInfo[]>
+	bot: boolean
 }) => {
 	const related = await relatedPromise
 
 	return (
 		<>
-			<PreloadRelatedQuestions related={related.map(({ name }) => name)} />
+			{!bot && (
+				<PreloadRelatedQuestions related={related.map(({ name }) => name)} />
+			)}
 			{related.map(({ name, info }, index) => (
 				<Link
 					key={index}
