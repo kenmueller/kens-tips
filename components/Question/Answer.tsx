@@ -4,27 +4,27 @@ import Markdown from '@/components/Markdown'
 
 const Answer = ({
 	className,
-	answer
+	answerHtml
 }: {
 	className?: string
-	answer: Promise<string>
+	answerHtml: Promise<string>
 }) => (
 	<main className={className}>
 		<Suspense fallback={<p>Loading...</p>}>
 			{/* @ts-ignore */}
-			<AnswerResolved answer={answer} />
+			<AnswerResolved answerHtml={answerHtml} />
 		</Suspense>
 	</main>
 )
 
 const AnswerResolved = async ({
-	answer: answerPromise
+	answerHtml: answerHtmlPromise
 }: {
-	answer: Promise<string>
+	answerHtml: Promise<string>
 }) => {
-	const answer = await answerPromise
+	const answerHtml = await answerHtmlPromise
 
-	return <Markdown text={answer} />
+	return <Markdown html={answerHtml} />
 }
 
 export default Answer

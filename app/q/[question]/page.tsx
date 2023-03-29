@@ -19,6 +19,8 @@ import isBot from '@/lib/isBot'
 import Views from '@/components/Question/Views'
 import PageView from '@/components/PageView'
 import getRelatedQuestionsWithInfo from '@/lib/question/getRelatedWithInfo'
+import mdToHtml from '@/lib/mdToHtml'
+import htmlToDescription from '@/lib/htmlToDescription'
 import preview from '@/assets/preview.jpg'
 
 import styles from './page.module.scss'
@@ -26,6 +28,8 @@ import styles from './page.module.scss'
 const isBotCached = cache(isBot)
 const loadQuestionByNameCached = cache(loadQuestionByName)
 const getRelatedQuestionsWithInfoCached = cache(getRelatedQuestionsWithInfo)
+const mdToHtmlCached = cache(mdToHtml)
+const htmlToDescriptionCached = cache(htmlToDescription)
 
 const image = {
 	url: preview.src,
@@ -59,7 +63,9 @@ export const generateMetadata = async ({
 			question.question
 		)}`
 		const title = `${question.question} | Ken's Tips`
-		const description = answerUnwrapped
+
+		const answerHtml = mdToHtmlCached(answerUnwrapped)
+		const description = htmlToDescriptionCached(answerHtml)
 
 		return {
 			alternates: { canonical: url },
@@ -103,6 +109,8 @@ const QuestionPage = async ({
 	const { question, answer, relatedQuestions, saveResult } =
 		await loadQuestionByNameCached(normalizedName)
 
+	const answerHtml = answer.then(mdToHtmlCached)
+
 	const relatedQuestionsWithInfo = relatedQuestions.then(
 		getRelatedQuestionsWithInfoCached
 	)
@@ -127,7 +135,7 @@ const QuestionPage = async ({
 				<Views question={question} bot={bot} />
 				<CommentCount config={commentConfig} />
 			</section>
-			<Answer className={styles.answer} answer={answer} />
+			<Answer className={styles.answer} answerHtml={answerHtml} />
 			<RelatedQuestions
 				className={styles.related}
 				related={relatedQuestionsWithInfo}

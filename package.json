@@ -19,6 +19,7 @@
 		"client-only": "^0.0.1",
 		"disqus-react": "^1.1.5",
 		"firebase": "^9.18.0",
+		"html-to-text": "^9.0.5",
 		"isbot": "^3.6.7",
 		"long": "^5.2.1",
 		"nanoid": "^4.0.1",
@@ -30,9 +31,12 @@
 		"schema-dts": "^1.1.2",
 		"server-only": "^0.0.1",
 		"showdown": "^2.1.0",
-		"slonik": "^33.1.4"
+		"showdown-htmlescape": "^0.1.9",
+		"slonik": "^33.1.4",
+		"truncate": "^3.0.0"
 	},
 	"devDependencies": {
+		"@types/html-to-text": "^9.0.0",
 		"@types/node": "18.15.7",
 		"@types/react": "18.0.29",
 		"@types/react-dom": "18.0.11",
