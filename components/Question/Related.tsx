@@ -16,7 +16,7 @@ const RelatedQuestions = ({
 	related: Promise<RelatedQuestionWithInfo[]>
 }) => (
 	<section className={className}>
-		<h3 className={styles.title}>Related Questions</h3>
+		<h2 className={styles.title}>Related Questions</h2>
 		<Suspense fallback={<p>Loading...</p>}>
 			{/* @ts-ignore */}
 			<RelatedQuestionsResolved related={related} />
