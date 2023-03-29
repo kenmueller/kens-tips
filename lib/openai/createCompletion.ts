@@ -8,7 +8,7 @@ import ErrorCode from '../error/code'
 
 const createCompletion = async (messages: ChatCompletionRequestMessage[]) => {
 	const response = await openai.createChatCompletion({
-		model: 'gpt-3.5-turbo',
+		model: 'gpt-4',
 		messages,
 		temperature: 0.3
 	})
