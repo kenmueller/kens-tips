@@ -4,21 +4,21 @@ import { sql, DatabasePoolConnection } from 'slonik'
 import { connect } from '@/lib/pool'
 
 const updateQuestion = async (
-	id: string,
+	name: string,
 	{ answer, related }: { answer: string | null; related: string[] | null },
 	connection?: DatabasePoolConnection
 ) => {
 	if (!(answer || related)) return
 
 	await (connection
-		? updateQuestionWithConnection(id, { answer, related }, connection)
+		? updateQuestionWithConnection(name, { answer, related }, connection)
 		: connect(connection =>
-				updateQuestionWithConnection(id, { answer, related }, connection)
+				updateQuestionWithConnection(name, { answer, related }, connection)
 		  ))
 }
 
 const updateQuestionWithConnection = async (
-	id: string,
+	name: string,
 	{ answer, related }: { answer: string | null; related: string[] | null },
 	connection: DatabasePoolConnection
 ) => {
@@ -31,7 +31,7 @@ const updateQuestionWithConnection = async (
 							].filter(Boolean) as string[],
 							sql.fragment`, `
 						)}
-				   WHERE id = ${id}`
+				   WHERE question ILIKE ${name}`
 	)
 }
 

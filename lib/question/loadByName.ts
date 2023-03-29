@@ -47,7 +47,7 @@ const loadQuestionByName = async (
 				.then(([answer, relatedQuestions]) =>
 					questionInDatabase
 						? updateQuestion(
-								question.id,
+								question.question,
 								{
 									answer: originalAnswer ? null : answer,
 									related: originalRelated ? null : relatedQuestions

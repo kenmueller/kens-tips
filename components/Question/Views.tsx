@@ -16,7 +16,7 @@ const QuestionViews = ({
 
 	const updateViews = useCallback(async () => {
 		const response = await fetch(
-			`/api/questions/${encodeURIComponent(question.id)}/views`,
+			`/api/questions/${encodeURIComponent(question.question)}/views`,
 			{ method: 'POST' }
 		)
 

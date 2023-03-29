@@ -5,10 +5,10 @@ import updateViews from '@/lib/question/updateViews'
 
 export const POST = async (
 	_request: NextRequest,
-	{ params: { id } }: { params: { id: string } }
+	{ params: { name } }: { params: { name: string } }
 ) => {
 	try {
-		await updateViews(id)
+		await updateViews(name)
 		return new NextResponse('')
 	} catch (unknownError) {
 		const { code, message } = errorFromUnknown(unknownError)

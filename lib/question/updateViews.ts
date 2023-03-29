@@ -4,19 +4,22 @@ import { sql, DatabasePoolConnection } from 'slonik'
 
 import { connect } from '@/lib/pool'
 
-const updateQuestionViews = (id: string, connection?: DatabasePoolConnection) =>
+const updateQuestionViews = (
+	name: string,
+	connection?: DatabasePoolConnection
+) =>
 	connection
-		? updateQuestionViewsWithConnection(id, connection)
-		: connect(connection => updateQuestionViewsWithConnection(id, connection))
+		? updateQuestionViewsWithConnection(name, connection)
+		: connect(connection => updateQuestionViewsWithConnection(name, connection))
 
 const updateQuestionViewsWithConnection = async (
-	id: string,
+	name: string,
 	connection: DatabasePoolConnection
 ) => {
 	await connection.query(
 		sql.unsafe`UPDATE questions
 				   SET views = views + 1
-				   WHERE id = ${id}`
+				   WHERE question ILIKE ${name}`
 	)
 }
 
