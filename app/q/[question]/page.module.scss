@@ -82,10 +82,9 @@
 }
 
 .comments {
-	margin-top: 2rem;
+	margin: 2rem 0 -0.3rem;
 }
 
 .bottomSpacer {
-	// Disqus has extra padding on the bottom
-	height: calc(var(--vertical-padding) - 0.3rem);
+	height: var(--vertical-padding);
 }

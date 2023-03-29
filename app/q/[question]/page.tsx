@@ -140,7 +140,7 @@ const QuestionPage = async ({
 				className={styles.related}
 				related={relatedQuestionsWithInfo}
 			/>
-			<Comments className={styles.comments} config={commentConfig} />
+			{!bot && <Comments className={styles.comments} config={commentConfig} />}
 			<div className={styles.bottomSpacer} aria-hidden />
 			<QuestionStructuredData question={question} answer={answer} />
 			<Suspense>
