@@ -32,7 +32,7 @@ ${(await getPaths())
 </urlset>`,
 			{
 				headers: {
-					'cache-control': 'no-cache',
+					'cache-control': 'no-store',
 					'content-type': 'application/xml'
 				}
 			}

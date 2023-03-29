@@ -12,7 +12,7 @@ export const GET = async () => {
 Sitemap: ${process.env.NEXT_PUBLIC_ORIGIN!}/sitemap.xml`,
 			{
 				headers: {
-					'cache-control': 'no-cache',
+					'cache-control': 'no-store',
 					'content-type': 'text/plain'
 				}
 			}

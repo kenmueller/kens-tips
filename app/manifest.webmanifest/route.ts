@@ -19,7 +19,7 @@ export const GET = async () => {
 			},
 			{
 				headers: {
-					'cache-control': 'no-cache'
+					'cache-control': 'no-store'
 				}
 			}
 		)
