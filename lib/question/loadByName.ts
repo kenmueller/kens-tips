@@ -7,9 +7,11 @@ import getRelatedQuestions from '@/lib/question/getRelated'
 import updateQuestion from '@/lib/question/update'
 import createQuestion from '@/lib/question/create'
 import QuestionStore from '@/lib/question/store'
+import Model from '@/lib/openai/model'
 
 const loadQuestionByName = async (
 	name: string,
+	model?: Model,
 	connection?: DatabasePoolConnection
 ) => {
 	const questionInStore = await QuestionStore.shared.getQuestionByName(name)
@@ -26,7 +28,7 @@ const loadQuestionByName = async (
 		: questionInStore // If another client is already loading the answer
 		? QuestionStore.shared.getAnswer(question.id) // Subscribe to the other client loading the answer
 		: // First client to load the answer
-		  getAnswer(question.question).then(answer => {
+		  getAnswer(question.question, model).then(answer => {
 				QuestionStore.shared.addAnswer(question.id, answer)
 				return answer
 		  })
@@ -36,7 +38,7 @@ const loadQuestionByName = async (
 		: questionInStore // If another client is already loading the related questions
 		? QuestionStore.shared.getRelatedQuestions(question.id) // Subscribe to the other client loading the related questions
 		: // First client to load the related questions
-		  getRelatedQuestions(question.question).then(related => {
+		  getRelatedQuestions(question.question, model).then(related => {
 				QuestionStore.shared.addRelatedQuestions(question.id, related)
 				return related
 		  })

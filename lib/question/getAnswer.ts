@@ -1,23 +1,27 @@
 import 'server-only'
 
 import createCompletion from '@/lib/openai/createCompletion'
-import OpenAIError from '../openai/error'
-import HttpError from '../error/http'
-import ErrorCode from '../error/code'
+import OpenAIError from '@/lib/openai/error'
+import HttpError from '@/lib/error/http'
+import ErrorCode from '@/lib/error/code'
+import Model from '@/lib/openai/model'
 
-const getAnswer = async (question: string) => {
+const getAnswer = async (question: string, model?: Model) => {
 	try {
-		const answer = await createCompletion([
-			{
-				role: 'system',
-				content:
-					'Answer this question as a blog post. Do not mention that you are an AI.'
-			},
-			{
-				role: 'user',
-				content: question
-			}
-		])
+		const answer = await createCompletion(
+			[
+				{
+					role: 'system',
+					content:
+						'Answer this question as a blog post. Do not mention that you are an AI.'
+				},
+				{
+					role: 'user',
+					content: question
+				}
+			],
+			model
+		)
 
 		return answer
 	} catch (unknownError) {

@@ -5,10 +5,13 @@ import ErrorCode from '@/lib/error/code'
 import HttpError from '@/lib/error/http'
 import saveUnloadedQuestions from '@/lib/question/saveUnloaded'
 import saveLoadedQuestions from '@/lib/question/saveLoaded'
+import Model, { DEFAULT_MODEL, MODELS } from '@/lib/openai/model'
+import verifyAuthenticationHeader from '@/lib/verifyAuthenticationHeader'
 
 interface Body {
 	questions: string[]
 	load: boolean
+	model?: Model
 }
 
 export const POST = async (request: NextRequest) => {
@@ -21,16 +24,21 @@ export const POST = async (request: NextRequest) => {
 		if (!(typeof body === 'object' && body))
 			throw new HttpError(ErrorCode.BadRequest, 'Invalid body')
 
-		const { questions, load } = body
+		const { questions, load, model } = body
 
 		if (
 			!(
 				Array.isArray(questions) &&
 				questions.every(question => typeof question === 'string') &&
-				typeof load === 'boolean'
+				typeof load === 'boolean' &&
+				(model === undefined || MODELS.includes(model))
 			)
 		)
 			throw new HttpError(ErrorCode.BadRequest, 'Invalid data')
+
+		// If using a custom model, require authentication
+		if (!(model === undefined || model === DEFAULT_MODEL))
+			verifyAuthenticationHeader()
 
 		const normalizedQuestions = questions
 			.map(question => question.trim())
@@ -39,7 +47,7 @@ export const POST = async (request: NextRequest) => {
 		const uniqueNormalizedQuestions = Array.from(new Set(normalizedQuestions))
 
 		const results = await (load
-			? saveLoadedQuestions(uniqueNormalizedQuestions)
+			? saveLoadedQuestions(uniqueNormalizedQuestions, model)
 			: saveUnloadedQuestions(uniqueNormalizedQuestions))
 
 		return NextResponse.json(results)

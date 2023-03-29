@@ -3,12 +3,16 @@ import 'server-only'
 import { ChatCompletionRequestMessage } from 'openai'
 
 import openai from '.'
-import HttpError from '../error/http'
-import ErrorCode from '../error/code'
+import { DEFAULT_MODEL } from './model'
+import HttpError from '@/lib/error/http'
+import ErrorCode from '@/lib/error/code'
 
-const createCompletion = async (messages: ChatCompletionRequestMessage[]) => {
+const createCompletion = async (
+	messages: ChatCompletionRequestMessage[],
+	model = DEFAULT_MODEL
+) => {
 	const response = await openai.createChatCompletion({
-		model: 'gpt-4',
+		model,
 		messages,
 		temperature: 0.3
 	})
