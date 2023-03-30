@@ -15,7 +15,7 @@ const TopQuestions = ({
 	<section className={className}>
 		<h2 className={styles.title}>Top Questions</h2>
 		<Suspense fallback={<p className={styles.loading}>Loading...</p>}>
-			{/* @ts-ignore */}
+			{/* @ts-expect-error Async Server Component */}
 			<TopQuestionsResolved questions={questions} />
 		</Suspense>
 	</section>

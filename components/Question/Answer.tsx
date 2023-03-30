@@ -11,7 +11,7 @@ const Answer = ({
 }) => (
 	<main className={className}>
 		<Suspense fallback={<p>Loading...</p>}>
-			{/* @ts-ignore */}
+			{/* @ts-expect-error Async Server Component */}
 			<AnswerResolved answerHtml={answerHtml} />
 		</Suspense>
 	</main>

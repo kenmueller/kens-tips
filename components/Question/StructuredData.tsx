@@ -16,7 +16,7 @@ const QuestionStructuredData = ({
 	answer: Promise<string>
 }) => (
 	<Suspense>
-		{/* @ts-ignore */}
+		{/* @ts-expect-error Async Server Component */}
 		<QuestionStructuredDataResolved question={question} answer={answer} />
 	</Suspense>
 )

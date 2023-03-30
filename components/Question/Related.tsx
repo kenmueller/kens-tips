@@ -20,7 +20,7 @@ const RelatedQuestions = ({
 	<section className={className}>
 		<h2 className={styles.title}>Related Questions</h2>
 		<Suspense fallback={<p>Loading...</p>}>
-			{/* @ts-ignore */}
+			{/* @ts-expect-error Async Server Component */}
 			<RelatedQuestionsResolved related={related} bot={bot} />
 		</Suspense>
 	</section>

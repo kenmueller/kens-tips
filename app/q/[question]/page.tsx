@@ -145,7 +145,7 @@ const QuestionPage = async ({
 			<div className={styles.bottomSpacer} aria-hidden />
 			<QuestionStructuredData question={question} answer={answer} />
 			<Suspense>
-				{/* @ts-ignore */}
+				{/* @ts-expect-error Async Server Component */}
 				<Resolve promise={saveResult} />
 			</Suspense>
 			<PageView
