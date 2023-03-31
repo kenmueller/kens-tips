@@ -6,14 +6,15 @@ import HttpError from '@/lib/error/http'
 import ErrorCode from '@/lib/error/code'
 import Model from '@/lib/openai/model'
 
+const WORD_COUNT = 1000
+
 const getAnswer = async (question: string, model?: Model) => {
 	try {
 		const answer = await createCompletion(
 			[
 				{
 					role: 'system',
-					content:
-						'Answer this question as a blog post. Do not mention that you are an AI.'
+					content: `Answer this question as a blog post. Write at least ${WORD_COUNT} words.`
 				},
 				{
 					role: 'user',

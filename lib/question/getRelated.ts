@@ -15,7 +15,7 @@ const getRelatedQuestions = async (question: string, model?: Model) => {
 			[
 				{
 					role: 'system',
-					content: `Find ${RELATED_QUESTIONS_COUNT} follow up questions. Answer as a numbered list. Do not mention that you are an AI.`
+					content: `Find ${RELATED_QUESTIONS_COUNT} related questions. Answer as a numbered list.`
 				},
 				{
 					role: 'user',
