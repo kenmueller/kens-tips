@@ -5,6 +5,9 @@ import { NextResponse } from 'next/server'
 
 import errorFromUnknown from '@/lib/error/fromUnknown'
 
+export const revalidate = 0
+export const dynamic = 'force-dynamic'
+
 export const GET = async () => {
 	try {
 		return new NextResponse(

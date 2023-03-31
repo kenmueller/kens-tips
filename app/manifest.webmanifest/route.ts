@@ -4,6 +4,9 @@ import errorFromUnknown from '@/lib/error/fromUnknown'
 
 import theme from '@/styles/theme.module.scss'
 
+export const revalidate = 0
+export const dynamic = 'force-dynamic'
+
 export const GET = async () => {
 	try {
 		return NextResponse.json(

@@ -13,6 +13,9 @@ const getPaths = async () => [
 	)
 ]
 
+export const revalidate = 0
+export const dynamic = 'force-dynamic'
+
 export const GET = async () => {
 	try {
 		return new NextResponse(
