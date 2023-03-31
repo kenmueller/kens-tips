@@ -30,7 +30,12 @@ const getRelatedQuestions = async (question: string, model?: Model) => {
 			.map(line => line.trim().match(LINE_MATCH)?.[1])
 			.filter(Boolean) as string[]
 
-		return relatedQuestions
+		const relatedQuestionsSlice = relatedQuestions.slice(
+			0,
+			RELATED_QUESTIONS_COUNT
+		)
+
+		return relatedQuestionsSlice
 	} catch (unknownError) {
 		throw new HttpError(
 			ErrorCode.Internal,
