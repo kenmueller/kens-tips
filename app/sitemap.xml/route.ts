@@ -26,10 +26,7 @@ xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 \
 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">\
 ${(await getPaths())
 	.map(
-		path =>
-			`<url><loc>${encodeURI(
-				`${process.env.NEXT_PUBLIC_ORIGIN!}${path}`
-			)}</loc></url>`
+		path => `<url><loc>${process.env.NEXT_PUBLIC_ORIGIN!}${path}</loc></url>`
 	)
 	.join('')}\
 </urlset>`,
