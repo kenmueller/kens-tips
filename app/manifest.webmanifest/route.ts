@@ -22,7 +22,8 @@ export const GET = async () => {
 			},
 			{
 				headers: {
-					'cache-control': 'no-store'
+					'cache-control': 'no-store',
+					'content-type': 'application/json'
 				}
 			}
 		)
